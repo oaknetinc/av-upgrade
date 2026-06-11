@@ -136,7 +136,8 @@ announcement.
 
 Version `0.1.0` is a proof of concept intended for review, adversarial testing,
 and design discussion. The verified Base Sepolia deployment is documented in
-[DEPLOYMENT.md](docs/DEPLOYMENT.md).
+[DEPLOYMENT.md](docs/DEPLOYMENT.md). A Base mainnet research deployment also
+exists, but it is unaudited, centrally administered, and not production-ready.
 
 ## License
 
