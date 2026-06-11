@@ -37,14 +37,16 @@ forge script script/DeployBaseSepolia.s.sol:DeployBaseSepolia \
 
 ## Broadcast And Verify Sources
 
-The repository expects a local Foundry keystore account named
-`payflow-deployer`. Foundry prompts for its password locally; never paste the
-password into chat, source control, command history, or an environment file.
+The deployment machine has a local Foundry keystore account named
+`av-upgrade-deployer`. Its generated password is stored in an owner-only file
+outside the repository. Never paste the password into chat, source control,
+command history, or a project environment file.
 
 ```bash
 forge script script/DeployBaseSepolia.s.sol:DeployBaseSepolia \
   --rpc-url https://sepolia.base.org \
-  --account payflow-deployer \
+  --account av-upgrade-deployer \
+  --password-file ~/.foundry/keystores/av-upgrade-deployer.password \
   --broadcast \
   --verify \
   --verifier sourcify \
@@ -60,4 +62,3 @@ broadcast/DeployBaseSepolia.s.sol/84532/run-latest.json
 
 Do not use addresses from a dry-run artifact. Simulated addresses depend on
 the simulated sender nonce and are not proof of deployment.
-
