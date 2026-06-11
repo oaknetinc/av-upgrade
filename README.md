@@ -135,7 +135,8 @@ announcement.
 ## Status
 
 Version `0.1.0` is a proof of concept intended for review, adversarial testing,
-and design discussion.
+and design discussion. The verified Base Sepolia deployment is documented in
+[DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 ## License
 
