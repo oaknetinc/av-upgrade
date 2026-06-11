@@ -9,6 +9,10 @@ code hashes.
 > This repository is an unaudited research prototype. Do not use it to secure
 > production funds.
 
+An [internal security review](docs/INTERNAL_AUDIT_2026-06-11.md) found one high,
+one medium, and one low severity issue. These findings remain open in the
+deployed contracts. This review is not an independent audit.
+
 AV Upgrade does not claim to detect every exploit or determine whether a caller
 is a hacker. It blocks transactions that violate explicit, deterministic safety
 policies and gives independent guardians a separate path to contain an active
