@@ -8,7 +8,7 @@ AI is making vulnerability discovery faster. DeFi defense has to move beyond
 Today we are open-sourcing AV Upgrade: an experimental runtime containment layer
 for EVM protocols.
 
-Code: `<GITHUB_URL>`
+Code: https://github.com/oaknetinc/av-upgrade
 
 ## Post 2
 
@@ -68,5 +68,5 @@ Break it. Challenge the assumptions. Help define better invariants.
 We are open-sourcing AV Upgrade, an experimental runtime defense layer for EVM
 protocols. It combines deterministic invariants, outflow limits, circuit
 breakers, guardian pauses, and code-hash-bound upgrades to contain detectable
-exploits. It is unaudited and not production-ready. `<GITHUB_URL>`
-
+exploits. It is unaudited and not production-ready.
+https://github.com/oaknetinc/av-upgrade
