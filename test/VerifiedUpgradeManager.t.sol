@@ -56,11 +56,18 @@ contract VerifiedUpgradeManagerTest {
         MockUpgradeableProxy proxy = new MockUpgradeableProxy(address(manager));
         MockImplementation implementation = new MockImplementation();
         bytes memory data;
-        uint256 upgradeId =
-            manager.schedule(address(proxy), address(implementation), bytes32(uint256(1)), data);
 
         vm.expectRevert();
-        manager.execute(upgradeId, data);
+        manager.schedule(address(proxy), address(implementation), bytes32(uint256(1)), data);
+    }
+
+    function testRejectsEOAImplementation() public {
+        VerifiedUpgradeManager manager = new VerifiedUpgradeManager(address(this), 0, 1 days);
+        MockUpgradeableProxy proxy = new MockUpgradeableProxy(address(manager));
+        address eoa = address(0xBEEF);
+        bytes memory data;
+
+        vm.expectRevert();
+        manager.schedule(address(proxy), eoa, eoa.codehash, data);
     }
 }
-

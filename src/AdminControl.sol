@@ -4,6 +4,7 @@ pragma solidity ^0.8.24;
 abstract contract AdminControl {
     error NotAdmin();
     error ZeroAddress();
+    error NotContract(address account);
 
     address public admin;
     address public pendingAdmin;
@@ -24,6 +25,10 @@ abstract contract AdminControl {
 
     function _requireAdmin() private view {
         if (msg.sender != admin) revert NotAdmin();
+    }
+
+    function _requireContract(address account) internal view {
+        if (account.code.length == 0) revert NotContract(account);
     }
 
     function transferAdmin(address newAdmin) external onlyAdmin {

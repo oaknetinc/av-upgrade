@@ -18,6 +18,8 @@ contract InvariantRegistry is AdminControl {
 
     function addInvariant(address target, bytes4 selector, address invariant) external onlyAdmin {
         if (invariant == address(0)) revert ZeroAddress();
+        _requireContract(target);
+        _requireContract(invariant);
         address[] storage entries = _invariants[_key(target, selector)];
         if (entries.length >= MAX_INVARIANTS) revert TooManyInvariants();
         entries.push(invariant);
@@ -50,4 +52,3 @@ contract InvariantRegistry is AdminControl {
         return keccak256(abi.encode(target, selector));
     }
 }
-

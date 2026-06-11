@@ -26,6 +26,7 @@ contract AVUpgradeTest {
     address private constant ATTACKER = address(0xBAD);
     address private constant GUARDIAN_ONE = address(0x101);
     address private constant GUARDIAN_TWO = address(0x102);
+    address private constant GUARDIAN_THREE = address(0x103);
 
     CircuitBreaker private breaker;
     InvariantRegistry private registry;
@@ -116,5 +117,40 @@ contract AVUpgradeTest {
         vm.expectRevert();
         protectedVault.withdrawFrom(ALICE, 1 ether, payable(ALICE));
     }
-}
 
+    function testGuardianMembershipChangeInvalidatesOldVotes() public {
+        address[] memory guardians = new address[](3);
+        guardians[0] = GUARDIAN_ONE;
+        guardians[1] = GUARDIAN_TWO;
+        guardians[2] = GUARDIAN_THREE;
+        GuardianCouncil council = new GuardianCouncil(address(this), breaker, guardians, 2);
+        breaker.setPauser(address(council), true);
+
+        bytes32 reason = keccak256("ACTIVE_EXPLOIT");
+        bytes32 salt = keccak256("incident-epoch");
+        vm.prank(GUARDIAN_ONE);
+        council.voteToPause(address(protectedVault), reason, salt);
+
+        uint256 previousEpoch = council.councilEpoch();
+        council.setGuardian(GUARDIAN_THREE, false);
+        require(council.councilEpoch() == previousEpoch + 1, "epoch did not advance");
+
+        vm.prank(GUARDIAN_TWO);
+        council.voteToPause(address(protectedVault), reason, salt);
+        require(!breaker.paused(address(protectedVault)), "stale vote counted");
+
+        vm.prank(GUARDIAN_ONE);
+        council.voteToPause(address(protectedVault), reason, salt);
+        require(breaker.paused(address(protectedVault)), "fresh threshold did not pause");
+    }
+
+    function testRejectsEOAAsProtectedTarget() public {
+        vm.expectRevert();
+        guard.setTarget(ALICE, true);
+    }
+
+    function testRejectsEOAAsInvariant() public {
+        vm.expectRevert();
+        registry.addInvariant(address(protectedVault), ProtectedVault.withdrawFrom.selector, ALICE);
+    }
+}

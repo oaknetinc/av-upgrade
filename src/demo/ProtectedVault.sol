@@ -10,6 +10,7 @@ contract ProtectedVault {
     uint256 public totalLiabilities;
 
     constructor(AVGuard guard) {
+        if (address(guard).code.length == 0) revert("INVALID_GUARD");
         avGuard = guard;
     }
 
@@ -37,4 +38,3 @@ contract ProtectedVault {
         require(success, "TRANSFER_FAILED");
     }
 }
-

@@ -50,6 +50,12 @@ contract VerifiedUpgradeManager is AdminControl {
         if (proxy == address(0) || implementation == address(0)) {
             revert ZeroAddress();
         }
+        _requireContract(proxy);
+        _requireContract(implementation);
+        bytes32 actualCodeHash = implementation.codehash;
+        if (actualCodeHash != expectedCodeHash) {
+            revert CodeHashMismatch(actualCodeHash, expectedCodeHash);
+        }
         uint64 executeAfter = uint64(block.timestamp) + minimumDelay;
         uint64 expiresAt = executeAfter + gracePeriod;
         upgradeId = nextUpgradeId++;
@@ -88,4 +94,3 @@ contract VerifiedUpgradeManager is AdminControl {
         emit UpgradeExecuted(upgradeId);
     }
 }
-

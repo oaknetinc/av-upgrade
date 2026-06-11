@@ -128,7 +128,9 @@ AV Upgrade can contain violations represented by configured policies. It cannot:
 - replace audits, formal verification, monitoring, or incident response.
 
 See [THREAT_MODEL.md](docs/THREAT_MODEL.md) for security assumptions and
-[LAUNCH_THREAD.md](docs/LAUNCH_THREAD.md) for the draft public announcement.
+[DEPLOYMENT.md](docs/DEPLOYMENT.md) for Base Sepolia deployment and source
+verification, and [LAUNCH_THREAD.md](docs/LAUNCH_THREAD.md) for the draft public
+announcement.
 
 ## Status
 
@@ -138,4 +140,3 @@ and design discussion.
 ## License
 
 MIT
-

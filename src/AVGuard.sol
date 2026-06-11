@@ -24,6 +24,9 @@ contract AVGuard is AdminControl {
         InvariantRegistry registry,
         RateLimiter limiter
     ) AdminControl(initialAdmin) {
+        _requireContract(address(breaker));
+        _requireContract(address(registry));
+        _requireContract(address(limiter));
         circuitBreaker = breaker;
         invariantRegistry = registry;
         rateLimiter = limiter;
@@ -31,6 +34,7 @@ contract AVGuard is AdminControl {
 
     function setTarget(address target, bool enabled) external onlyAdmin {
         if (target == address(0)) revert ZeroAddress();
+        if (enabled) _requireContract(target);
         enabledTarget[target] = enabled;
         emit TargetEnabled(target, enabled);
     }
@@ -46,4 +50,3 @@ contract AVGuard is AdminControl {
         emit CheckPassed(target, selector, outflow);
     }
 }
-

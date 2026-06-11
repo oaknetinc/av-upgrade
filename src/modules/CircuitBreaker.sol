@@ -28,6 +28,7 @@ contract CircuitBreaker is AdminControl {
 
     function pause(address target, bytes32 reason) external {
         if (!isPauser[msg.sender]) revert NotPauser();
+        if (target == address(0)) revert ZeroAddress();
         paused[target] = true;
         pauseReason[target] = reason;
         emit TargetPausedEvent(target, msg.sender, reason);
@@ -43,4 +44,3 @@ contract CircuitBreaker is AdminControl {
         if (paused[target]) revert TargetPaused(target);
     }
 }
-
